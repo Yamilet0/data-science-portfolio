@@ -1,0 +1,195 @@
+---
+title: "Examen3VD_Pimentel"
+author: "Yamilet"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(dplyr)
+library(ggthemes)
+```
+
+# Introducción
+
+Explorar la distribución del precio de los diamantes según su corte y quilataje permite entender mejor cómo se comporta el mercado y qué variables realmente marcan diferencia. Usar facetado en las visualizaciones, ya sea por corte o por quilates, ayuda a descomponer relaciones complejas y compararlas de forma clara. Además, incluir una curva suave en cada panel permite identificar la tendencia general sin perderse en el ruido de los datos individuales. Herramientas como facet_wrap() y facet_grid() nos ofrecen enfoques distintos: una más flexible y otra más estructurada. Elegir la adecuada depende del tipo de análisis que se quiera hacer y del nivel de detalle que se necesite observar.
+
+------------------------------------------------------------------------
+
+# 1. Análisis del Precio según Corte y Quilataje
+
+## 1.1 Distribución del precio en relación con el corte y quilataje
+
+```{r, fig.width=12, fig.height=4}
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.3) +
+  facet_wrap(~cut) +
+  labs(title = "Distribución de Precio por Corte", x = "Quilataje", y = "Precio")
+
+```
+
+Se observa que, si bien el quilate es un factor determinante del precio, la calidad del corte influye significativamente tanto en el rango de precios como en la concentración de las ventas, siendo los cortes "Muy Bueno", "Premium" e "Ideal" los que alcanzan precios más altos y representan una mayor proporción del mercado a ciertos niveles de precio y quilates.
+
+## 1.2 Facetado por corte y agrupación por quilataje
+
+```{r, fig.width=12, fig.height=4}
+diamonds %>%
+  mutate(carat_group = cut(carat, breaks = 4)) %>%
+  ggplot(aes(x = carat_group, y = price)) +
+  geom_boxplot() +
+  facet_wrap(~cut) +
+  labs(title = "Precio agrupado por Quilataje, Facetado por Corte", x = "Grupo de Quilataje", y = "Precio")
+
+```
+
+Las distribuciones del precio agrupado por quilataje y facetado por corte, demuestra claramente cómo el precio de los diamantes está directamente influenciado tanto por el quilataje como por la calidad del corte; en todos los tipos de corte, el precio mediano y el rango general aumentan a medida que el quilataje es mayor. Es evidente que los cortes de alta calidad ("Very Good", "Premium", "Ideal") consistentemente alcanzan precios medianos superiores en cada rango de quilataje, con sus precios más comunes agrupándose entre \$12,000 y \$15,000 para los rangos intermedios de quilataje, y mostrando además una mayor dispersión de precios que sugiere una variabilidad considerable en estos segmentos. Por otro lado, los cortes "Fair" y "Good" se mantienen en rangos de precios inferiores y con menor variabilidad.
+
+## 1.3 Facetado por quilataje y agrupación por corte
+
+```{r, fig.width=12, fig.height=4}
+diamonds %>%
+  mutate(carat_group = cut(carat, breaks = 4)) %>%
+  ggplot(aes(x = cut, y = price)) +
+  geom_boxplot() +
+  facet_wrap(~carat_group) +
+  labs(title = "Precio agrupado por Corte, Facetado por Quilataje", x = "Corte", y = "Precio")
+
+```
+
+Se observa que, en el quilataje más bajo (0.195, 1.4], todos los tipos de corte presentan precios medianos relativamente bajos y muy similares, aunque con una considerable dispersión de precios (cajas altas) y la presencia de numerosos valores atípicos que indican una amplia variabilidad. A medida que el quilataje aumenta a los rangos (1.4, 2.6]y (2.6, 3.81], se hace evidente una distinción significativa en los precios : los cortes de mayor calidad ("Very Good", "Premium", "Ideal") alcanzan consistentemente precios medianos notablemente más altos y mantienen una mayor dispersión en sus precios que los cortes "Fair" y "Good" dentro del mismo rango de quilataje. Finalmente, en el rango de quilataje más alto (3.81, 5.01], la presencia de datos es mínima, lo que subraya la escasez de diamantes de estas dimensiones en el conjunto de datos.
+
+## 1.4 Comparación de ambos enfoques y elección preferida
+
+-   Facetado por corte: Es ideal cuando lo que se quiere es entender cómo cambia el precio conforme aumenta el quilataje dentro de cada tipo de corte. Te permite seguir la evolución del precio desde un corte "Fair" hasta uno "Ideal" según el tamaño del diamante.
+
+-   Facetado por quilataje: Recomendado si el enfoque está en comparar los diferentes cortes dentro de un mismo rango de quilataje. Sirve para ver rápidamente:
+
+1.  Qué cortes resultan más caros para un tamaño específico.
+
+2.  Qué tanta variación de precio hay entre cortes en ese rango.
+
+3.  Y cómo esas diferencias se amplifican o se reducen conforme cambia el quilataje.
+
+-   Prefiriría el facetado por quilataje ya que es más intuitivo para detectar patrones de mercado: En contextos donde el tamaño (quilataje) ya está definido por una necesidad del cliente o del diseñador, lo que realmente importa es cuál corte conviene más en relación al precio.
+
+------------------------------------------------------------------------
+
+# 2. Relación entre Precio y Quilataje según Color
+
+## 2.1 Relación precio vs. quilataje diferenciada por color
+
+Objetivo: identificar si el color influye en la relación precio-quilataje.
+
+```{r}
+ggplot(diamonds, aes(x = carat, y = price, color = color)) +
+  geom_point(alpha = 0.3) +
+  labs(title = "Relación entre Precio y Quilataje por Color", x = "Quilataje", y = "Precio")
+
+```
+
+La relación entre el precio y el quilataje varía según el color, aunque esta variación no es fácil de identificar visualmente debido a la sobreposición de puntos y la diversidad cromática empleada. La alta densidad de observaciones en ciertas áreas y la transparencia parcial de los puntos generan una superposición que dificulta distinguir patrones específicos para cada grupo de color.
+
+## 2.2 Dificultades en la comparación visual
+
+La principal dificultad radica en la sobreposición de datos y el uso simultáneo de múltiples colores que se traslapan entre sí. Esta saturación visual impide una segmentación clara de los grupos, lo cual limita la capacidad de interpretar diferencias entre ellos de manera efectiva.
+
+## 2.3 ¿Agrupación o facetado?
+
+El uso de facetas resulta más adecuado en este caso, ya que permite aislar visualmente cada grupo de color en subgráficas independientes. Esta segmentación mejora la legibilidad y facilita la comparación directa entre las relaciones de quilataje y precio por color.
+
+## 2.4 Sugerencias para mejorar legibilidad con facetas
+
+Podría integrarse una línea de tendencia (como un geom_smooth) en cada faceta. Esto resaltaría el comportamiento general dentro de cada categoría y facilitaría la comparación entre subgrupos.
+
+```{r}
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue") +
+  facet_wrap(~color) +
+  labs(title = "Faceta por Color con Curva General", subtitle = "Curva LOESS aplicada a todo el conjunto")
+
+```
+
+------------------------------------------------------------------------
+
+# 3. Ventajas del uso de `facet_wrap()` sobre `facet_grid()`
+
+## 3.1 Comparación entre `facet_wrap()` y `facet_grid()`
+
+facet_wrap() divide los datos en un conjunto de paneles que se "envuelven" en un espacio bidimensional, similar a cómo el texto se envuelve en un párrafo. Crea una serie de gráficos basándose en una sola variable discreta (o en múltiples variables combinadas en una sola por defecto). El número de filas y columnas se ajusta automáticamente para llenar el espacio de la mejor manera posible, pero también se puede controlar manualmente.
+
+```{r}
+# Gráfico de dispersión de precio vs. quilate, facetado por cut
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.5, size = 0.5) + # Puntos transparentes y pequeños para manejar la densidad
+  geom_smooth(method = "lm", se = FALSE, color = "red") + # Añadir una línea de regresión para cada faceta
+  facet_wrap(~ cut, scales = "free_y", ncol = 3) + # ncol para controlar el número de columnas
+  labs(
+    title = "Precio vs. Quilate por Calidad de Corte (facet_wrap)",
+    x = "Quilate (Carat)",
+    y = "Precio ($)"
+  ) +
+  theme_minimal()
+```
+
+facet_grid() divide los datos en una cuadrícula 2D definida por dos variables discretas: una para las filas y otra para las columnas. Esto es útil cuando deseas examinar la interacción o el patrón de los datos a través de combinaciones específicas de dos variables. Cada celda de la cuadrícula representa una combinación única de los niveles de las dos variables.
+
+```{r, fig.width=4, fig.height=4}
+# Gráfico de dispersión de precio vs. quilate, facetado por color y claridad
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.3, size = 0.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  facet_grid(color ~ clarity, scales = "free_y") + # Filas por color, columnas por clarity
+  labs(
+    title = "Precio vs. Quilate por Color y Claridad (facet_grid)",
+    x = "Quilate (Carat)",
+    y = "Precio ($)"
+  ) +
+  theme_minimal() +
+  theme(strip.text.x = element_text(size = 8), # Ajustar tamaño de texto de las etiquetas
+        strip.text.y = element_text(size = 8))
+```
+
+El uso de facet_grid() con color y clarity permite ver cómo estas dos características se combinan y afectan la relación entre quilates y precio. No se trata solo de tener un buen color o una buena claridad: lo que realmente importa es cómo interactúan ambas. facet_grid() organiza visualmente todas esas combinaciones de forma estructurada y fácil de comparar.
+
+## 3.2 ¿Por qué `facet_wrap()` suele ser más útil?
+
+facet_wrap() suele ser la opción más práctica cuando se exploran variables categóricas. Es flexible, aprovecha mejor el espacio y se adapta bien a diferentes cantidades de niveles. En cambio, facet_grid() es útil cuando se necesita ver una cuadrícula bien definida por dos variables, donde cada celda representa una combinación específica. Ambas herramientas son útiles, pero por su versatilidad, facet_wrap() suele ser la primera opción en un análisis exploratorio.
+
+------------------------------------------------------------------------
+
+# 4. Recreación de Gráfica con Facetado y Curva Suave
+
+```{r, warning=FALSE, fig.width=4, fig.height=4}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess",se = FALSE, color = "blue") +
+  facet_wrap(~class) +
+  labs(title = "Consumo de Combustible por Tipo de Vehículo", x = "Cilindrada (displ)", y = "Rendimiento (hwy)")
+
+```
+
+## 4.1 Descripción del objetivo gráfico
+
+El objetivo principal de este gráfico es visualizar la relación entre la cilindrada (desplazamiento del motor, displ) y el rendimiento de combustible en carretera (hwy) para diferentes tipos o clases de vehículos. Busca mostrar cómo el rendimiento del combustible cambia con la cilindrada, y si esta relación varía significativamente entre categorías de vehículos como "2seater", "compact", "midsize", etc.
+
+## 4.2 Aplicación de `facet_wrap()` por clase de auto
+
+Se ha aplicado facet_wrap() para separar el análisis de la relación entre cilindrada y rendimiento por cada clase de vehículo. Esto significa que en lugar de un único gráfico con todos los puntos mezclados, tenemos un panel individual para cada tipo de vehículo (ej. "compact", "suv", "pickup").
+
+## 4.3 Incorporación de curva suave global (`geom_smooth()`)
+
+La curva suave facilita identificar hacia dónde va la relación entre las dos variables en cada subgrupo y qué tan fuerte es. Sin ella, sería complicado notar la tendencia solo con los puntos dispersos, sobre todo en paneles con pocos datos o con mucha variabilidad.
+
+Tener una línea de tendencia en cada faceta permite comparar más fácilmente cómo cambia la relación entre cilindrada y rendimiento —ya sea en la pendiente, el punto de arranque o la forma— entre, por ejemplo, un "compact" y un "subcompact".
+
+Además, esta curva ayuda a suavizar el ruido de los datos individuales, resaltando el patrón general y haciendo que el ojo se enfoque en lo importante.
+
+# Conclusión
+Uno de los retos que encontré fue cómo agrupar adecuadamente los valores de quilataje al aplicar facetado. Al principio no tenía claro si aumentar la segmentación aportaría más claridad o solo introduciría ruido visual. Más paneles implican más detalle, pero también pueden dificultar la lectura si cada subgrupo tiene muy pocos datos o si las diferencias no son significativas. Con el tiempo, probando distintas opciones y observando cómo cambiaban las curvas de tendencia, entendí que hay un equilibrio entre segmentar lo suficiente para captar patrones y no fragmentar tanto como para perder la visión general.
+
+El facetado es una herramienta clave cuando se quiere analizar cómo interactúan múltiples variables en un conjunto de datos. En el caso de los diamantes, permite ver con claridad cómo varía el precio según el corte y el quilate, revelando patrones que no serían tan evidentes en una sola gráfica. La curva de tendencia juega un papel importante, ya que resume el comportamiento general y facilita las comparaciones entre subgrupos. Entender las diferencias entre facet_wrap() y facet_grid() ayuda a tomar mejores decisiones al momento de visualizar, dependiendo de si se busca flexibilidad o una estructura más rigurosa para observar interacciones entre variables.
+
+------------------------------------------------------------------------
