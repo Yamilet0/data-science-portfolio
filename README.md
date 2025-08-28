@@ -21,7 +21,8 @@ juarez-4a8195195](https://www.linkedin.com/in/yamilet-pimentel-juarez-4a8195195/
 ## 🚀 Projects  
 
 ### 🔹 Machine Learning  
-- **[Earthquake Predictive Model](./machine-learning/earthquake-predictive-model/)**  
+- **[Earthquake Predictive Model](Machine%20Learning/Zonas%20de%20Riesgo%20Sísmico/)
+**  
   Predictive model of seismic activity in Oaxaca using geographic and temporal features.  
 
 ---
