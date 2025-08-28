@@ -21,8 +21,7 @@ juarez-4a8195195](https://www.linkedin.com/in/yamilet-pimentel-juarez-4a8195195/
 ## 🚀 Projects  
 
 ### 🔹 Machine Learning  
-- **[Earthquake Predictive Model](Machine%20Learning/Zonas%20de%20Riesgo%20Sísmico/)
-**  
+- **[Earthquake Predictive Model](Machine%20Learning/Zonas%20de%20Riesgo%20Sísmico/)**  
   Predictive model of seismic activity in Oaxaca using geographic and temporal features.  
 
 ---
@@ -37,7 +36,7 @@ juarez-4a8195195](https://www.linkedin.com/in/yamilet-pimentel-juarez-4a8195195/
 ---
 
 ### 🔹 Data Visualization  
-- **[Star Wars Well-being Dashboard](./visualizations/powerbi-wellbeing-starwars/)**  
+- **[Star Wars Well-being Dashboard](./Data%20Visualization/powerbi-wellbeing-starwars/)**  
   Power BI dashboard analyzing **sleep, eating habits, and emotions** from a Google Form survey with a Star Wars theme.  
 
 
