@@ -39,6 +39,11 @@ juarez-4a8195195](https://www.linkedin.com/in/yamilet-pimentel-juarez-4a8195195/
 - **[Star Wars Well-being Dashboard](./Data%20Visualization/powerbi-wellbeing-starwars/)**  
   Power BI dashboard analyzing **sleep, eating habits, and emotions** from a Google Form survey with a Star Wars theme.  
 
+---
+## 📚 Academic Projects
+
+- 🐍 [Data Exploration and Visualization in Python](Proyectos%20académicos/Python/)
+- 📊 [Data Exploration and Visualization in R](Proyectos%20académicos/R/)
 
 ---
 
