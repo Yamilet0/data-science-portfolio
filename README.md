@@ -42,8 +42,8 @@ juarez-4a8195195](https://www.linkedin.com/in/yamilet-pimentel-juarez-4a8195195/
 ---
 ## 📚 Academic Projects
 
-- 🐍 [Data Exploration and Visualization in Python](Proyectos%20académicos/Python/)
-- 📊 [Data Exploration and Visualization in R](Proyectos%20académicos/R/)
+- 🐍 [Data Exploration and Visualization in Python](./Machine%20Learning/Proyectos%20académicos/Python/)
+- 📊 [Data Exploration and Visualization in R](./Machine%20Learning/Proyectos%20académicos/R/)
 
 ---
 
